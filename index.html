@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <!--@Dev  
+            [ AC ]  [ ⌫ ]  [ ( ]  [ ) ]  [ % ]  [ √ ]  
+            [ 7 ]  [ 8 ]  [ 9 ]  [ ÷ ]  [ x² ]  [ log ]  
+            [ 4 ]  [ 5 ]  [ 6 ]  [ × ]  [ xʸ ]  [ sin ]  
+            [ 1 ]  [ 2 ]  [ 3 ]  [ - ]  [ ²√x ]  [ cos ]  
+            [ ± ]  [ 0 ]  [ . ]  [ + ]  [ = ]  [ tan ]  
+            [ Rad ]  [ Hist ]  [ ! ]  
+            -->
+        <div class="Calculadora">
+            <!--Troca de Tema Paeeeeeeeee-->
+            <div class="Tema">🎨</div>
+            <div class="display">
+                <!--Historico-->
+                <img src="imagem/historico.png" alt="Historico"> 
+                <div class="conta" id="conta">0</div>
+            </div>
+            <div class="Botoes">
+                <!--Linha 1-->
+                <div class="l1">
+                    <button class="Botao BackSpace" id="ac" aria-label="Limpar Display">AC</button>
+                    <button class="Botao BackSpace" id="back" aria-label="Apagar">⌫</button>
+                    <button class="Botao BotaoOperadorAvançado" id="(P" aria-label="parênteses">(</button>
+                    <button class="Botao BotaoOperadorAvançado" id=")P" aria-label="parênteses">)</button>
+                    <button class="Botao BotaoOperadorAvançado" id="pon" aria-label="Poncentagem">%</button>
+                    <button class="Botao BotaoOperadorAvançado" id="raizq" aria-label="Raiz">√</button>
+                </div>
+                <!--Linha 2-->
+                <div class="l2">
+                    <button class="Botao BotaoNumero" id="num7" aria-label="Digita 7">7</button>
+                    <button class="Botao BotaoNumero" id="num8" aria-label="Digita 8">8</button>
+                    <button class="Botao BotaoNumero" id="num9" aria-label="Digita 9">9</button>
+                    <button class="Botao BotaoOperadorBasico" id="divisao" aria-label="Divisão">÷</button>
+                    <button class="Botao BotaoOperadorAvançado" id="quadrado" aria-label="Ao Quadrado">x²</button>
+                    <button class="Botao BotaoLog" id="log" aria-label="Log">log</button>
+                </div>
+                <!--Linha 3-->
+                <div class="l3">
+                    <button class="Botao BotaoNumero" id="num4" aria-label="Digita 4">4</button>
+                    <button class="Botao BotaoNumero" id="num5" aria-label="Digita 5">5</button>
+                    <button class="Botao BotaoNumero" id="num6" aria-label="Digita 6">6</button>
+                    <button class="Botao BotaoOperadorBasico" id="multi" aria-label="Multiplicação">x</button>
+                    <button class="Botao BotaoOperadorAvançado" id="elevação" aria-label="Elevação">^</button>
+                    <button class="Botao BotaoTri" id="sin" aria-label="Sin">sin</button>
+                </div>
+                <!--Linha 4-->
+                <div class="l4">
+                    <button class="Botao BotaoNumero" id="num1" aria-label="Digita 1">1</button>
+                    <button class="Botao BotaoNumero" id="num2" aria-label="Digita 2">2</button>
+                    <button class="Botao BotaoNumero" id="num3" aria-label="Digita 3">3</button>
+                    <button class="Botao BotaoOperadorBasico" id="sub" aria-label="Subtração">-</button>
+                    <button class="Botao BotaoOperadorAvançado" id="RaizAoquadrado" aria-label="Raiz Quadrada, Ao Quadrado">²√x</button>
+                    <button class="Botao BotaoTri" id="cos" aria-label="Cos">cos</button>
+                </div>
+                <!--Linha 5-->
+                <div class="l5">
+                    <button class="Botao BotaoOperadorAvançado" id="trocasinal" aria-label="Trocar de Sinal">±</button>
+                    <button class="Botao BotaoNumero" id="num0" aria-label="Digita 0">0</button>
+                    <button class="Botao BotaoOperadorBasico" id="vigula" aria-label="Virgula">,</button>
+                    <button class="Botao BotaoOperadorBasico" id="adicao" aria-label="Adição">+</button>
+                    <button class="Botao BotaoOperadorBasico" id="igual" aria-label="Igualdade">=</button>
+                    <button class="Botao BotaoTri" id="tan" aria-label="Tan">tan</button>
+                </div>
+                <div class="l6">
+                    <button class="rad Botao" aria-label="Radiano">Rad</button>
+                    <button class="fac Botao" aria-label="Factorial">!</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="scritpt.js"></script>
+    <script>
+        async function GetJson() {
+            return fetch('Paletas.json')
+                .then(response => {
+                    if (!response.ok) {
+                    throw new Error('Falha ao carregar o arquivo JSON');
+                    }
+                    return response.json(); // Converte a resposta em JSON
+                })
+                .then(data => {
+                    return data
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                });
+        }
+
+        function Troca(index) {
+            index ++ 
+            if (index == 3) {
+                index = 0
+            }
+            return index
+        }
+
+        async function AddPaleta() {
+            Paleta = await GetJson()
+            console.log(Paleta)
+            
+            let PaletaFinal = null
+            if (Tema == '0') {
+                PaletaFinal = Paleta.defaultPalette
+                localStorage.setItem('Paleta', '0')
+            }
+            else if (Tema == '1') {
+                PaletaFinal = Paleta.lightPalette
+                localStorage.setItem('Paleta', '1')
+            }
+            else if (Tema == '2') {
+                PaletaFinal = Paleta.darkPalette
+                localStorage.setItem('Paleta', '2')
+            }
+            else {
+                console.log('Valor Invalido')
+            }
+            if (PaletaFinal == null) {
+                console.log('Algo de errado paizao')
+            }
+            if (PaletaFinal != null)  {
+                for (let vari of Object.entries(PaletaFinal)) {
+                    document.documentElement.style.setProperty(vari[0], vari[1])
+                }
+            }
+            else {
+                console.log('sem objeto fdp')
+            }
+        
+
+        }
+        //Mudar Paleta de Cores
+        var Tema = localStorage.getItem('Paleta')
+        if (Tema == false) {
+            Tema = '0'
+            localStorage.setItem('Paleta', Tema)
+        }
+        console.log(Tema)
+        let TemaTroca = Number(Tema)
+        var Paleta = null
+        AddPaleta()
+        //Troca
+        window.document.querySelector('.Tema').addEventListener('click', () => {
+            TemaTroca = Troca(Number(TemaTroca))
+            localStorage.setItem('Paleta', String(TemaTroca))
+            let Temas = [Paleta.defaultPalette, Paleta.lightPalette, Paleta.darkPalette]
+            for (let vari of Object.entries(Temas[TemaTroca])) {
+                window.document.documentElement.style.setProperty(vari[0], vari[1])
+            }
+        })
+    </script>
+</body>
+</html>

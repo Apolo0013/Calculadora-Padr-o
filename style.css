@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+* {
+    padding: 0px;
+    user-select: none;
+}
+
+/*Body backgroud deagrade*/
+body {
+    position: relative;
+    z-index: -2;
+    height: 100vh;
+    box-sizing: border-box;
+    background: linear-gradient(90deg, var(--bg-gradient-1), var(--bg-gradient-2));
+    background-size: 300% 300%;
+    animation: FundoGra 5s ease-in-out alternate infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0s;
+}
+
+@keyframes FundoGra {
+    0% {
+        background-position: 0% 100%;
+    }
+    50% {
+        background-position: 50% 50%;
+    }
+    100% {
+        background-position: 100% 0%;
+    }
+}
+
+/*Calculadora*/
+.Calculadora {
+    position: relative;
+    z-index: auto;
+    background: var(--calculator-bg);
+    border-radius: 20px;
+    box-shadow: 10px 10px 15px 5px  rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+/*Botoes*/
+.Botoes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+/*Botoes normais com numeros e operadores, aqui é o tamanho dos botoes e font e etc*/
+.Botao {
+    font-family: "Orbitron", Arial, Helvetica, sans-serif, Helvetica, sans-serif,sans-serif ;
+    font-weight: bold;
+    font-size: 15px;
+    color: var(--text-general);
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    border: 0px;
+    transition: 0.3s ease-in-out;
+    opacity: 1;
+}
+
+.foco {
+    border: 3px solid rgba(255, 51, 51, 0.9);
+}
+
+.Botao:hover {
+    transform: scale(1.05);
+    opacity: 0.7;
+}
+
+.Botao:active {
+    transition: 0.1s;
+    transform: scale(0.98);
+}
+
+.BotaoNumero {
+    background: var(--operator-number);
+    color: var(--color-number);
+}
+
+.BotaoOperadorBasico {
+    background-color: var(--operator-basic)
+}
+
+.BotaoOperadorAvançado {
+    background: var(--operator-advanced-1);
+}
+
+.BackSpace {
+    background: var(--backspace-color)
+}
+
+.BotaoTri {
+    background: var(--trigonometric)
+}
+
+.BotaoLog {
+    background: var(--logarithm)
+}
+
+/*Botoes rad e !(factorial)*/
+.l6 {
+    margin-top: 5px;
+    width: 100%;
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.fac, .rad {
+    font-size: 20px;
+    border: 0px;
+    border-radius: 5px;
+    width: 70px;
+    height: 30px;
+}
+
+.fac {
+    background: var(--btn-factorial);
+}
+
+.rad {
+    background: var(--btn-rad);
+}
+
+
+/*Display*/
+.display {
+    width: 500px;
+    height: 100px;
+    background: var(--display-bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+}
+
+.display > img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+}
+
+.display > img:hover {
+    transform: scale(1.05);
+    background: var(--btn-hist-hover);
+}
+
+.conta {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 95%;
+    height: 40px;
+    text-align: end;
+    font-size: 60px;
+    font-weight: bolder;
+    color: var(--display-text);
+    background: var(--display-bg);
+    font-family: "Roboto Mono", monospace, sans-serif;
+}
+
+.Tema {
+    position: absolute;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 50px;
+    height: 35px;
+    border-radius: 20px;
+    text-align: left;
+    background: white;
+    left: 0px;
+    top: 50px;
+    padding-left: 5px;
+    z-index: -1;
+    cursor: pointer;
+    transform: translateX(-20px);
+    transition: 1s;
+}
+
+.Tema:hover {
+    transform: translateX(-40px);
+}
+
+@media (min-width: 573px) {
+    .Botao {
+        width: 80px;
+        height: 80px;
+    }
+
+    .display {
+        width: 500px;
+    }
+
+    .Calculadora {
+        padding: 20px;
+    }
+
+    .fac, .rad {
+        font-size: 20px;
+        border: 0px;
+        border-radius: 5px;
+        width: 70px;
+        height: 30px;
+    }    
+}
+
+@media (max-width: 573px) {
+    .Botao {
+        width: 70px;
+        height: 70px;
+    }   
+
+    .fac, .rad {
+        font-size: 15px;
+        border: 0px;
+        border-radius: 5px;
+        width: 65px;
+        height: 25px;
+    }
+
+    .Calculadora {
+        padding-left: 10px;
+        padding-right: 10px;
+        flex-wrap: nowrap;
+    }
+
+    .display {
+        width: 450px;
+    }
+
+    .Tema:hover {
+        transform: translateX(-20px);
+    }
+}
