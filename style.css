@@ -166,6 +166,14 @@ body {
     background: var(--btn-hist-hover);
 }
 
+.Acumulador {
+    position: absolute;
+    top: 10px;
+    left: 80%;
+    font-family: "Roboto Mono", monospace, sans-serif;
+    color: var(--color-Acumulador);
+}
+
 .conta {
     display: flex;
     justify-content: flex-end;

@@ -81,52 +81,43 @@ class ValidaEntrada{
     }
 
 
-    ValidaValorRegex() {
-        let NumerosArray = this.SplitNum(this.ContaAtual + this.Entrada)
-        let NumTarget = NumerosArray[NumerosArray.length - 1]
-        let regex = /^[-]?(0|[1-9]\d*)(,\d*)?([+\-*/^](0|[1-9]\d*)(,\d*)?)*$/
-        let Valida = regex.test(NumTarget)
-        
-        if (Valida) {
+    ValidaNumero() {
+        let regex = /^(?!0\d)\d+$/
+
+        if (regex.test(this.ContaAtual + this.Entrada)) {
             return this.ContaAtual + this.Entrada
-        }
-        else {
-            return this.ContaAtual
-        }
-        
-    }
-
-
-    Operadores() {
-        if (this.ContaAtual.length >= 1) {
-            let Antercessor = this.AntercessorStr()
-            if (Trocaram) {
-                Trocaram = false
-            }
-            else {
-                Trocaram = true
-            }
-            Trocaram = false
-            if (this.Eoperador(Antercessor) || Antercessor == ',') {
-                return this.ContaAtual
-            }
-            else {
-                return this.ContaAtual + this.Entrada
-            }
-        }
+        }   
         else {
             return this.ContaAtual
         }
     }
-    
-    
+
+
+    Operador() {
+        Acumulador += this.ContaAtual 
+        if (this.SplitNum(Acumulador).length == 2) {
+            let Calculado = new Calcular(Acumulador).Calcular()
+            Acumulador = ''
+            Acumulador += Calculado + this.Entrada
+            DisplayAcu.innerText = Acumulador
+            Display.innerText = this.ContaAtual
+            Conta = ''
+        }
+        else {
+            console.log('Con 2')
+            Display.innerText = this.ContaAtual
+            Acumulador = this.ContaAtual + this.Entrada
+            DisplayAcu.innerText = Acumulador
+            Conta = ''
+        }
+    }
+
 }
 
 
 class Calcular{
-    constructor(Conta, Entrada) {
+    constructor(Conta) {
         this.Conta = Conta
-        this.Entrada = Entrada
     }
 
 
@@ -181,83 +172,15 @@ class Calcular{
         return true
     }
 
-    TrocaSinal() {
-        if (this.StartNaN()) { return this.Conta }
-        if (this.ValidoPraCalcular() && !this.TemOperador() || true) {
-            
-
-                
-            //basicamente, eu irei splita todos os numero e mudar o sinal dele
-            let Numeros = new ValidaEntrada().SplitNum(this.Conta) // splitando os numeros
-            let OneCaractere = Numeros[Numeros.length - 1].slice(0, 1)
-            if (OneCaractere == '-') {
-                
-            }
-            else {
-
-            }
-        }
-        else {
-            return this.Conta
-        }
-    }
-
-    
-    AoQuadrado() {
-        if (this.StartNaN()) {return this.Conta}
-        if (this.ValidoPraCalcular() && !this.TemOperador()) {
-            let conta = Number(this.Conta)
-            return String(conta * conta)
-        }
-        else {
-            return this.Conta
-        }
-    }
-
-
-    RaizQuadrada() {
-        if (this.StartNaN()) {return this.Conta}
-        if (this.ValidoPraCalcular() && !this.TemOperador()) {
-            return String(Number(this.Conta) ** 0.5)
-        }
-        else {
-            return this.Conta
-        }
-    }
-
-
-    RaizQuadraoAoQuadrado() {
-        if (this.StartNaN()) {return this.Conta}
-        if (this.ValidoPraCalcular() && this.TemOperador()) {
-            let resultado = this.AoQuadrado(this.RaizQuadrada(Number(this.Conta)))
-            return String(resultado)
-        }
-        else {
-            return this.Conta
-        }
-    }
-
 
     Calcular() {
-        let Resultado = () => {
-            console.log(this.Conta)
-            let ContaFinal = String(this.Conta).replace('x', '*').replace('÷', '/').replace(',', '.').replace('^', '**')
-            console.log(ContaFinal)
-            let Calculo = new Function('return ' + ContaFinal)
-            let Resultado = Calculo()
-            return String(Resultado).replace('.', ',')
-        }
-
-        console.log(this.ValidoPraCalcular())
-        if (this.ValidoPraCalcular()) {
-            console.log('foi chamado pae')
-            return Resultado()
-        }
-        else {
-            console.log('teu cu gld')
-            return this.Conta
-        }
+        let ContaFormatada = this.Conta.replace('x', '*',).replace('÷', '/').replace('**').replace(',', '.')
+        console.log(ContaFormatada)
+        let evalute = new Function('return ' + ContaFormatada)
+        let Resultado = String(evalute()).replace('.', ',')
+        return Resultado
     }
+
 }
 
 
@@ -289,7 +212,13 @@ let BackSpace = ['ac','back']
 
 //Display
 const Display = window.document.querySelector('.conta')
-let Conta = '' // é a string que vai guardar a conta
+const DisplayAcu = window.document.querySelector('.Acumulador')
+//variaevl contas
+let Acumulador = '' // ele vai guardar o aculativo, Como assim? exemplo:
+//se o usuario digitar 10 e depois um operador. essa varivel vai puxar o mesmo, e junta com o operador.
+//certo? E quando o usuario digitar outro numero e digitar outro operador ele vai faz o calculo dos 2 certo?
+//E vai guardar, vai fica nessa variavel, e assim por diante, se ele digitar 
+let Conta = '' // Conta é o numero que estara no display certo?
 
 //Apagando paeeeeeeeeeeeeeeee
 for (let element of BackSpace) {
@@ -336,21 +265,15 @@ for (let element of BackSpace) {
 //Numeros
 for (let element of Numeros) {
     window.document.getElementById(element).addEventListener('click', function () {// pegando a lista de ids do botoes numeros
-        Conta = new ValidaEntrada(Conta, this.textContent).ValidaValorRegex() // chamand a class de ValidaEntrada
+        Conta = new ValidaEntrada(Conta, this.textContent).ValidaNumero() // chamand a class de ValidaEntrada
         Display.innerText = Conta
-    }
-    )
+    })
 }
 
 //Operadores Basicos
 for (let element of OperadorBasic) {
     window.document.getElementById(element).addEventListener('click', function () {
-        Conta = new ValidaEntrada(Conta, this.textContent).Operadores()
-        if (Conta == '') {
-            Display.innerText = '0'
-            return
-        }
-        Display.innerText = Conta
+        new ValidaEntrada(Conta, this.textContent).Operador()
     })
 }
 
