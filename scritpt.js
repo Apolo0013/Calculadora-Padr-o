@@ -28,59 +28,6 @@ class ValidaEntrada{
     }
 
 
-    SplitNum(conta) {            
-        let EoperadorFun = (caracter) => {
-            let Operadores = ['-', '+', 'x', '÷', '^']
-            for (let opera of Operadores) {
-                if (opera == caracter) {
-                    return true
-                }
-            }
-            return false
-        }
-
-
-        let ParamOperador = () => {
-            for (let num of conta) {
-                if (EoperadorFun(num)) {
-                    return true
-                }
-            }
-            return false
-        }
-
-
-        let ListaNew = []
-        let caractere = conta
-        let caracateretemp = ''
-        if (!ParamOperador()) {
-            return [caractere]
-        }
-        else {
-            let Cont = 0
-            for (let numero of caractere) {
-                Cont ++
-                if (EoperadorFun(numero) || Cont == caractere.length) {
-                    if (Cont == caractere.length) {
-                        if (!EoperadorFun(numero)) {
-                            caracateretemp += numero
-                        }
-                        ListaNew.push(caracateretemp)
-                    }
-                    else {
-                        ListaNew.push(caracateretemp)
-                        caracateretemp = ''
-                    }
-                }
-                else {
-                    caracateretemp += numero
-                }
-            }
-            return ListaNew
-        }
-    }
-
-
     ValidaNumero() {
         let regex = /^(?!0\d)\d+$/
 
@@ -94,21 +41,43 @@ class ValidaEntrada{
 
 
     Operador() {
-        Acumulador += this.ContaAtual 
-        if (this.SplitNum(Acumulador).length == 2) {
-            let Calculado = new Calcular(Acumulador).Calcular()
-            Acumulador = ''
-            Acumulador += Calculado + this.Entrada
-            DisplayAcu.innerText = Acumulador
-            Display.innerText = this.ContaAtual
-            Conta = ''
+        function TemNum(num) {
+            for (let n of ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']) {
+                if (n == num) {
+                    return true
+                }
+            }
+            return false
         }
-        else {
-            console.log('Con 2')
-            Display.innerText = this.ContaAtual
-            Acumulador = this.ContaAtual + this.Entrada
-            DisplayAcu.innerText = Acumulador
-            Conta = ''
+
+        if (TemNum(this.ContaAtual.slice(0, 1)) || true) {
+            if (this.Eoperador(Acumulador.slice(Acumulador.length - 1, Acumulador.length))) {
+                Acumulador += Conta
+                let Calculado = new Calcular(Acumulador).Calcular()
+                Acumulador = ''
+                Acumulador += Calculado + this.Entrada
+                DisplayAcu.innerText = Acumulador
+                Display.innerText = this.ContaAtual
+                Conta = ''
+            }
+            else {
+                console.log('nao')
+                Display.innerText = this.ContaAtual
+                Acumulador = this.ContaAtual + this.Entrada
+                DisplayAcu.innerText = Acumulador
+                Conta = ''
+            }
+        }
+        console.log('depois ' + Acumulador)
+    }
+
+
+    Igualdade() {
+        if (Acumulador != '' && Conta != '') {
+            Acumulador += Conta
+            let Calculado = new Calcular(Acumulador).Calcular()
+            DisplayAcu.innerHTML = Acumulador + ' ='
+            Display.innerText = Calculado
         }
     }
 
@@ -174,10 +143,10 @@ class Calcular{
 
 
     Calcular() {
-        let ContaFormatada = this.Conta.replace('x', '*',).replace('÷', '/').replace('**').replace(',', '.')
+        let ContaFormatada = this.Conta.replace('x', '*').replace('÷', '/').replace('^', '**').replace(',', '.')
         console.log(ContaFormatada)
         let evalute = new Function('return ' + ContaFormatada)
-        let Resultado = String(evalute()).replace('.', ',')
+        let Resultado = String(evalute()).replaceAll('.', ',')
         return Resultado
     }
 
@@ -303,8 +272,7 @@ window.document.getElementById('quadrado').addEventListener('click', function ()
 
 // ---Elevação
 window.document.getElementById('elevação').addEventListener('click', function () {
-    Conta = new ValidaEntrada(Conta, this.textContent).Operadores()
-    Display.innerText = Conta
+    new ValidaEntrada(Conta, this.textContent).Operador()
     }
 )
 
@@ -338,7 +306,6 @@ window.document.getElementById('trocasinal').addEventListener('click', function 
 
 //igual Fazer o calculo
 window.document.querySelector('#igual').addEventListener('click', function () {
-    Conta = new Calcular(Conta).Calcular()
-    Display.innerText = Conta
+    new ValidaEntrada().Igualdade()
 })
 
