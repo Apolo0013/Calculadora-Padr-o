@@ -1,0 +1,20 @@
+<div class="scroll-container">
+    <div class="scroll-content">
+      Este é um texto muito longo que deve ultrapassar a largura da div, forçando o scroll horizontal.
+    </div>
+  </div>
+<style>
+    .scroll-container {
+  width: 300px; /* Largura fixa da div */
+  border: 1px solid #ccc;
+  overflow-x: scroll; /* Força a barra de rolagem no eixo X */
+  overflow-y: hidden; /* Remove scroll no eixo Y */
+  white-space: nowrap; /* Impede quebra de linha */
+}
+
+.scroll-content {
+  display: inline-block; /* Mantém o conteúdo na mesma linha */
+  min-width: 600px; /* Define um tamanho maior que a div pai */
+}
+
+</style>

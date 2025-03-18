@@ -27,14 +27,42 @@ class ValidaEntrada{
         return false
     }
 
+    //Tem uma virgula no final?
+    VirgulaEnd(numero) {
+        if (numero.length == 0) { return } // se nao tive porrada nenhuma ainda ele simplemente, vai retorna nada
+        let valor = null
+        if (numero.length == 1) {
+            valor = numero
+        }
+        else {
+            valor = numero.slice(numero.length - 1, numero.length)
+        }
+
+        if (valor == ',') { // se o tipo for igual number
+            return true
+        }
+        return false
+    }
+
 
     ValidaNumero() {
-        let regex = /^(?!0\d)\d+$/
+        if (ClearCampo) {
+            ClearCampo = false
+            Display.innerText = ''
+            DisplayAcu.innerText = ''
+        }
+        
 
+        let regex = /^-?(?!0\d)(\d+)(,\d*)?$/
+        
         if (regex.test(this.ContaAtual + this.Entrada)) {
+            console.log(this.Entrada)
             return this.ContaAtual + this.Entrada
         }   
         else {
+            if (Conta.length == 0) {
+                return ''
+            }
             return this.ContaAtual
         }
     }
@@ -50,7 +78,15 @@ class ValidaEntrada{
             return false
         }
 
-        if (TemNum(this.ContaAtual.slice(0, 1)) || true) {
+        if (this.Entrada == '-' && Conta == '') {
+            if (OperadorAtual != '-') {
+                Conta = this.Entrada
+                Display.innerText = Conta
+            }
+        }
+
+        if (this.ContaAtual.length >= 1) {
+            OperadorAtual = this.Entrada
             if (this.Eoperador(Acumulador.slice(Acumulador.length - 1, Acumulador.length))) {
                 Acumulador += Conta
                 let Calculado = new Calcular(Acumulador).Calcular()
@@ -67,17 +103,21 @@ class ValidaEntrada{
                 DisplayAcu.innerText = Acumulador
                 Conta = ''
             }
+            console.log('Conta depois ' + Conta)
+            console.log('Acumulador depois ' + Acumulador)
         }
-        console.log('depois ' + Acumulador)
     }
 
 
     Igualdade() {
         if (Acumulador != '' && Conta != '') {
+            ClearCampo = true
             Acumulador += Conta
             let Calculado = new Calcular(Acumulador).Calcular()
             DisplayAcu.innerHTML = Acumulador + ' ='
             Display.innerText = Calculado
+            Acumulador = ''
+            Conta = ''
         }
     }
 
@@ -235,11 +275,16 @@ for (let element of BackSpace) {
 for (let element of Numeros) {
     window.document.getElementById(element).addEventListener('click', function () {// pegando a lista de ids do botoes numeros
         Conta = new ValidaEntrada(Conta, this.textContent).ValidaNumero() // chamand a class de ValidaEntrada
+        if (Conta == '') {
+            Display.innerText = '0'
+            return
+        }
         Display.innerText = Conta
     })
 }
 
 //Operadores Basicos
+let OperadorAtual = null // ele é o operador que esta dentro do da variavel acumulador
 for (let element of OperadorBasic) {
     window.document.getElementById(element).addEventListener('click', function () {
         new ValidaEntrada(Conta, this.textContent).Operador()
@@ -248,9 +293,12 @@ for (let element of OperadorBasic) {
 
 //Vigula
 window.document.getElementById('vigula').addEventListener('click', function () {
-    Conta = new ValidaEntrada(Conta, ',').ValidaValorRegex()
+    Conta = new ValidaEntrada(Conta, ',').ValidaNumero()
+    if (Conta == '') {
+        Display.innerText = '0'
+        return
+    }
     Display.innerText = Conta
-
 })
 
 
@@ -305,7 +353,15 @@ window.document.getElementById('trocasinal').addEventListener('click', function 
 })
 
 //igual Fazer o calculo
+let ClearCampo = false // sera pra saber se o usuario fez a igualdade pra nois limpar depois que ele digitar outro numero pae fdp arrombodo caralho
 window.document.querySelector('#igual').addEventListener('click', function () {
-    new ValidaEntrada().Igualdade()
+    if
+    (
+        Conta.length >= 1 &&
+        new ValidaEntrada().Eoperador(Acumulador.slice(Acumulador.length - 1, Acumulador.length))
+    )
+    {
+        new ValidaEntrada().Igualdade()
+    }
 })
 

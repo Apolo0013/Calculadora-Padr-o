@@ -169,7 +169,10 @@ body {
 .Acumulador {
     position: absolute;
     top: 10px;
-    left: 80%;
+    left: 20%;
+    text-align: end;
+    width: 75%;
+    max-width: 75%;
     font-family: "Roboto Mono", monospace, sans-serif;
     color: var(--color-Acumulador);
 }
@@ -178,7 +181,9 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 95%;
+    top: 43%;
+    position: absolute;
+    width: 1000px;
     height: 40px;
     text-align: end;
     font-size: 60px;
@@ -186,6 +191,9 @@ body {
     color: var(--display-text);
     background: var(--display-bg);
     font-family: "Roboto Mono", monospace, sans-serif;
+    overflow-x: scroll; 
+    overflow-y: hidden;
+    white-space: nowrap;
 }
 
 .Tema {
@@ -231,7 +239,11 @@ body {
         border-radius: 5px;
         width: 70px;
         height: 30px;
-    }    
+    } 
+    
+    .conta {
+        font-size: 50px;
+    }
 }
 
 @media (max-width: 573px) {
@@ -255,10 +267,14 @@ body {
     }
 
     .display {
-        width: 450px;
+        width: 440px;
     }
 
     .Tema:hover {
         transform: translateX(-20px);
+    }
+
+    .conta {
+        font-size: 60px;
     }
 }
