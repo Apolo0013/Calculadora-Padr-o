@@ -274,6 +274,9 @@ for (let element of BackSpace) {
 //Numeros
 for (let element of Numeros) {
     window.document.getElementById(element).addEventListener('click', function () {// pegando a lista de ids do botoes numeros
+        if (Conta.length == 16) { // se o numero digitar passa de 16
+            return
+        }
         Conta = new ValidaEntrada(Conta, this.textContent).ValidaNumero() // chamand a class de ValidaEntrada
         if (Conta == '') {
             Display.innerText = '0'
@@ -293,6 +296,13 @@ for (let element of OperadorBasic) {
 
 //Vigula
 window.document.getElementById('vigula').addEventListener('click', function () {
+    //a quantidade denumero que o usuario pode digitar.
+    if (Conta.length == 16) { return } // se atigir o limite retorne
+    console.log('limite nao')
+    if (Conta.length == 15) { // ja que o limite é 16, nao pode deixa um virgula no final
+        return
+    }
+
     Conta = new ValidaEntrada(Conta, ',').ValidaNumero()
     if (Conta == '') {
         Display.innerText = '0'
