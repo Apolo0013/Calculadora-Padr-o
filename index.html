@@ -23,9 +23,10 @@
                 <!--Historico-->
                 <img src="imagem/historico.png" alt="Historico"> 
                 <!--Acumulador-->
-                <div class="Acumulador"></div>
+                <div class="Acumulador">2 + 2 =</div>
                 <!--Continha pae-->
-                <div class="conta" id="conta">00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</div>
+                
+                <div class="conta" id="conta"></div>
             </div>
             <div class="Botoes">
                 <!--Linha 1-->
@@ -160,6 +161,31 @@
                 window.document.documentElement.style.setProperty(vari[0], vari[1])
             }
         })
+
+
+        function FontConta(){
+            let p = window.document.querySelector('.conta')
+
+            let textlen = p.textContent.length
+            
+            if (textlen <= 9) {
+                p.style.fontSize = '55px'
+            }
+            else if (textlen <= 12) {
+                p.style.fontSize = '50px'
+                p.style.top = '50%'
+            }
+            else if (textlen <= 14) {
+                p.style.fontSize = '45px'
+                p.style.top = '55%'
+            }
+            else if (textlen <= 16) {
+                p.style.fontSize = '40px'
+                p.style.top = '60%'
+            }
+        }
+
+        window.document.body.addEventListener('click', FontConta)
     </script>
 </body>
 </html>

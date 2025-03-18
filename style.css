@@ -142,7 +142,7 @@ body {
 /*Display*/
 .display {
     width: 500px;
-    height: 100px;
+    height: 120px;
     background: var(--display-bg);
     display: flex;
     flex-direction: column;
@@ -166,6 +166,7 @@ body {
     background: var(--btn-hist-hover);
 }
 
+/*Acumulador, localizador em cima do .conta*/
 .Acumulador {
     position: absolute;
     top: 10px;
@@ -177,23 +178,23 @@ body {
     color: var(--color-Acumulador);
 }
 
+/*Conteiner que guardar o texto da conta*/
 .conta {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
-    top: 43%;
+    align-items: flex-start;
     position: absolute;
-    width: 1000px;
-    height: 40px;
+    top: 40%;
+    right: 10px;
+    margin-right: 10px;
+    width: 95%;
+    height: 60px;
     text-align: end;
     font-size: 60px;
     font-weight: bolder;
     color: var(--display-text);
     background: var(--display-bg);
     font-family: "Roboto Mono", monospace, sans-serif;
-    overflow-x: scroll; 
-    overflow-y: hidden;
-    white-space: nowrap;
 }
 
 .Tema {
@@ -240,10 +241,6 @@ body {
         width: 70px;
         height: 30px;
     } 
-    
-    .conta {
-        font-size: 50px;
-    }
 }
 
 @media (max-width: 573px) {
@@ -272,9 +269,5 @@ body {
 
     .Tema:hover {
         transform: translateX(-20px);
-    }
-
-    .conta {
-        font-size: 60px;
     }
 }

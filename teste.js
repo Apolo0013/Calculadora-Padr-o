@@ -1,13 +1,6 @@
-const fs = require('fs').promises
 
-async function main() {
-    try {
-        fs.writeFile('dados.txt', 'teu cu', 'utf-8')
-        console.log('sin')
-    }  
-    catch (error) { 
-        console.log('Errro fdp')
-    }
+let fds = ''
+for (let i = 0; i <= 16; i++) {
+    fds += '0'
 }
-
-console.log(-5-5)
+console.log(fds)
