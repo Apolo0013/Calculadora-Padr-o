@@ -69,10 +69,24 @@ class ValidaEntrada{
 
 
     Operador() {
-        function TemNum(num) {
+        function TemNum(num) { // funcao:
+            /////////////////////////////////////////////////////////////////////////
+            //oque ele faz?: ele verificar se um o utlimo caractere é numero ou nao
+            //Param: num = uma string.
+            //retorno: false or true
+            // true = sim tem numero
+            // false = nao tem numero
+            /////////////////////////////////////////////////////////////////////////
+            let end = ''// variavel que vai guardar o ultimocaractere paeeeee
+            if (num.length == 1) { // se num tive somente um caractere
+                end = num // guardando num, por ter um, ele é o ultimo caractere ao mesmo tempo o primeiro
+            }
+            else {
+                end = num.slice(num.length - 1, num.length) // pegando o ultimo caracatere
+            }
             for (let n of ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']) {
-                if (n == num) {
-                    return true
+                if (n == end) { // se end for === alguns desses numero ai de  cima
+                    return true //  retorne true: sim tem numero
                 }
             }
             return false
@@ -82,35 +96,42 @@ class ValidaEntrada{
             if (OperadorAtual != '-') {
                 Conta = this.Entrada
                 Display.innerText = Conta
+                return
             }
         }
 
-        if (this.ContaAtual.length >= 1) {
-            OperadorAtual = this.Entrada
-            if (this.Eoperador(Acumulador.slice(Acumulador.length - 1, Acumulador.length))) {
-                Acumulador += Conta
-                let Calculado = new Calcular(Acumulador).Calcular()
-                Acumulador = ''
-                Acumulador += Calculado + this.Entrada
-                DisplayAcu.innerText = Acumulador
-                Display.innerText = this.ContaAtual
-                Conta = ''
+        else if (TemNum(this.ContaAtual)) {
+            if (this.ContaAtual.length >= 1) {
+                OperadorAtual = this.Entrada
+                if (this.Eoperador(Acumulador.slice(Acumulador.length - 1, Acumulador.length))) {
+                    Acumulador += Conta
+                    let Calculado = new Calcular(Acumulador).Calcular()
+                    Acumulador = ''
+                    Acumulador += Calculado + this.Entrada
+                    DisplayAcu.innerText = Acumulador
+                    Display.innerText = this.ContaAtual
+                    Conta = ''
+                }
+                else {
+                    console.log('nao')
+                    Display.innerText = this.ContaAtual
+                    Acumulador = this.ContaAtual + this.Entrada
+                    DisplayAcu.innerText = Acumulador
+                    Conta = ''
+                }
             }
-            else {
-                console.log('nao')
-                Display.innerText = this.ContaAtual
-                Acumulador = this.ContaAtual + this.Entrada
-                DisplayAcu.innerText = Acumulador
-                Conta = ''
-            }
-            console.log('Conta depois ' + Conta)
-            console.log('Acumulador depois ' + Acumulador)
+        }
+        else {
+            console.log('pode nao fdp')
+            console.log(this.ContaAtual)
+            console.log(TemNum(this.ContaAtual))
+            return
         }
     }
 
 
     Igualdade() {
-        if (Acumulador != '' && Conta != '') {
+        if (Acumulador != '' && Conta != '' && !this.VirgulaEnd(Conta)) {
             ClearCampo = true
             Acumulador += Conta
             let Calculado = new Calcular(Acumulador).Calcular()
@@ -118,6 +139,12 @@ class ValidaEntrada{
             Display.innerText = Calculado
             Acumulador = ''
             Conta = ''
+        }
+        else {
+            console.log('rejeitado')
+            console.log('Conta: ' + Conta)
+            console.log('Acumulador: ' + Conta)
+            console.log('Virgula no final?: ' + this.VirgulaEnd(Conta)? 'Sim': 'Nao')
         }
     }
 
@@ -214,10 +241,11 @@ let OperadorBasic = [
     'multi',
     'sub',
     'adicao',
+    'elevação'
 ]
 
 //id dos back 
-let BackSpace = ['ac','back']
+let BackSpace = ['ac','back', 'CE']
 
 //Display
 const Display = window.document.querySelector('.conta')
@@ -232,25 +260,15 @@ let Conta = '' // Conta é o numero que estara no display certo?
 //Apagando paeeeeeeeeeeeeeeee
 for (let element of BackSpace) {
     window.document.getElementById(element).addEventListener('click', function () { //add os eventos no back
-        let OperadorBack = (back) => {
-            for (let op in ['-', '+', 'x', '÷', '^']) {
-                if (op == back) {
-                    if (!Trocaram) {
-                        Trocaram = true
-                    }
-                    else {
-                        Trocaram = false
-                    }
-                }
-            }
-
-        }
+        //Oq cada um dos backspace faz?
+        //back normal: remove o ultimo caractere paeeee
+        //AC: ele simplemente, da um clera em tudo, como nas variavel: "Conta" e "Acumulador"
+        //CE: ele so vai da um clear na variavel Conta, ou seja, apenas no numero que esta sendo digitado
         let opcao = this.id // pegando o id pra diferencia os dois
         if (Conta.length >= 1) {
             if (opcao == 'back') { // se for back, sabemos que  ele so vai retirar o ultimo caractere
                 if (Conta.length >= 2) { // caso ele for maior ou igual a 2, vamos fatia
                     let back = Conta.slice(0, Conta.length - 1) // fatiando, o primeiro caractere ate o penultimo
-                    OperadorBack(Conta.slice(Conta.length - 1 , Conta.length))
                     Conta = back // dando o valor de back pra a conta
                     Display.innerText = Conta // dando valor do display, texto do display, de Conta, que tem o valor do back
                 }
@@ -259,12 +277,21 @@ for (let element of BackSpace) {
                     Conta = ''
                 }
             }
-            else if (opcao == 'ac') { // se  for AC, tiramos tudo clear total
-                Conta = '' // conta sera um string vazia
-                Display.innerText = '0' // display tera o valor de zero, o 0, nao faz parte da conta, apenas style
+            else if (opcao == 'CE') {
+                Conta = '' //Clear na variavel, o carinho que é manipulado pra se exbido no display
+                Display.innerText = '0'
             }
             else { //  algo deu muito errado aqui.
                 console.log('algo deu errado paeeeeeee')
+            }
+        }
+        else { // o porque dele esta seperado: ele simples vai deletar tudo, tudo mesmo, no if desse else, so pode se atendido, se a conta for maior ou igual a 1, aqui nao precisa disso paeeeeeeeeeeeee.
+            if (opcao == 'ac') { //clear: Conta e Acumulador    
+                Conta = '' // conta sera um string vazia
+                Acumulador = ''
+                DisplayAcu.innerText = Acumulador
+                Display.innerText = '0' // display tera o valor de zero, o 0, nao faz parte da conta, apenas style
+        
             }
         }
     }
@@ -314,54 +341,7 @@ window.document.getElementById('vigula').addEventListener('click', function () {
 
 //Operadores Avançados
 //AoQuadrado
-//Elevação
-//Raiz
 //Raiz AoQuadrado
-
-// ---AoQuadrado
-window.document.getElementById('quadrado').addEventListener('click', function () {
-    Conta = new Calcular(Conta).AoQuadrado()
-    if (Conta == '') {
-        Display.innerText = '0'
-        return
-    }
-    Display.innerText = Conta
-})
-
-// ---Elevação
-window.document.getElementById('elevação').addEventListener('click', function () {
-    new ValidaEntrada(Conta, this.textContent).Operador()
-    }
-)
-
-// --Raiz
-window.document.getElementById('raizq').addEventListener('click', function () {
-    Conta = new Calcular(Conta).RaizQuadrada()
-    if (Conta == '') {
-        Display.innerText = '0'
-        return
-    }
-    Display.innerText = Conta
-})
-
-// --Raiz AoQuadrado
-window.document.getElementById('RaizAoquadrado').addEventListener('click', function () {
-    Conta = new Calcular(Conta).RaizQuadraoAoQuadrado()
-    if (Conta == '') {
-        Display.innerText = '0'
-        return
-    }
-    Display.innerText = Conta
-})
-
-//Troca de sinal pae
-let Trocaram = false
-window.document.getElementById('trocasinal').addEventListener('click', function () {
-    Conta = '-20x20^-20+20'
-    Conta = new Calcular(Conta).TrocaSinal()
-    Display.innerText = Conta
-})
-
 //igual Fazer o calculo
 let ClearCampo = false // sera pra saber se o usuario fez a igualdade pra nois limpar depois que ele digitar outro numero pae fdp arrombodo caralho
 window.document.querySelector('#igual').addEventListener('click', function () {
