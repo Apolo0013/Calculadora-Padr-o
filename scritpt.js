@@ -152,8 +152,9 @@ class ValidaEntrada{
 
 
 class Calcular{
-    constructor(Conta) {
+    constructor(Conta, Op) {
         this.Conta = Conta
+        this.Opcao = Op
     }
 
 
@@ -206,6 +207,16 @@ class Calcular{
             return false
         }
         return true
+    }
+
+
+    OperadorAva() {// Metedo que vai ver a opcao que o usuario escolhou entrem Raiz Ao Quadrado ou AoQuadrado
+        let Quadrado = () => {
+
+        }
+
+
+        let Raiz
     }
 
 
@@ -342,7 +353,22 @@ window.document.getElementById('vigula').addEventListener('click', function () {
 //Operadores Avançados
 //AoQuadrado
 //Raiz AoQuadrado
-//igual Fazer o calculo
+//iremos trabalha com os operadores "avançados" assim:
+// iremos pegar a varivel `Conta` e vamos aplica o operador nele, se o mesmo estive com vingula, vazio ou
+//Temos dois como o jeito de exercuta diferete.
+const OperadorAva = ['RaizAoquadrado', 'quadrado', 'Raiz']
+for (let op of OperadorAva) {
+    window.document.getElementById('.' + op).addEventListener('click', () => {
+        let opcao = null
+        if (op == OperadorAva[0]) { } // se o botao digitado foi o raiz ao quadrado
+        else if (op == OperadorAva[1]) {} // se o botao digitar foi o ao quadrado
+        else if (op == OperadorAva[2]) {} // se o botao digitar foi o Raiz Quadrada
+        new Calcular(Conta, opcao)
+    })
+}
+
+
+// igualdade
 let ClearCampo = false // sera pra saber se o usuario fez a igualdade pra nois limpar depois que ele digitar outro numero pae fdp arrombodo caralho
 window.document.querySelector('#igual').addEventListener('click', function () {
     if
@@ -354,4 +380,3 @@ window.document.querySelector('#igual').addEventListener('click', function () {
         new ValidaEntrada().Igualdade()
     }
 })
-
