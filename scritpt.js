@@ -152,9 +152,8 @@ class ValidaEntrada{
 
 
 class Calcular{
-    constructor(Conta, Op) {
+    constructor(Conta) {
         this.Conta = Conta
-        this.Opcao = Op
     }
 
 
@@ -210,13 +209,30 @@ class Calcular{
     }
 
 
-    OperadorAva() {// Metedo que vai ver a opcao que o usuario escolhou entrem Raiz Ao Quadrado ou AoQuadrado
-        let Quadrado = () => {
-
+    MaxCaracte(Conta) { // ele vai trabalhar com as funcoes de baixo, verificando se ele entao fazendo a conta, sem passar do limite pae
+        if (Conta.length > 16){
+            return String(Conta).slice(0, 16).replace(',', '.')   
         }
+        else {
+            return String(Conta)
+        }
+    }
 
 
-        let Raiz
+    Quadrado() {
+        Conta = Conta.replace(',', '.')
+        Conta = this.MaxCaracte(Number(Conta) * Number(Conta))
+    }
+
+
+    RaizQuadrada() {
+        Conta = Conta.replace(',', '.')
+        Conta = this.MaxCaracte(Number(Conta) ** 0.5)
+    }
+
+
+    RaizCubico() {
+        
     }
 
 
@@ -352,18 +368,24 @@ window.document.getElementById('vigula').addEventListener('click', function () {
 
 //Operadores Avançados
 //AoQuadrado
-//Raiz AoQuadrado
+//Raiz Quadrada
 //iremos trabalha com os operadores "avançados" assim:
 // iremos pegar a varivel `Conta` e vamos aplica o operador nele, se o mesmo estive com vingula, vazio ou
 //Temos dois como o jeito de exercuta diferete.
-const OperadorAva = ['RaizAoquadrado', 'quadrado', 'Raiz']
+const OperadorAva = ['Raizquadrada', 'quadrado', 'RaiCu']
 for (let op of OperadorAva) {
-    window.document.getElementById('.' + op).addEventListener('click', () => {
-        let opcao = null
-        if (op == OperadorAva[0]) { } // se o botao digitado foi o raiz ao quadrado
-        else if (op == OperadorAva[1]) {} // se o botao digitar foi o ao quadrado
-        else if (op == OperadorAva[2]) {} // se o botao digitar foi o Raiz Quadrada
-        new Calcular(Conta, opcao)
+    window.document.getElementById(op).addEventListener('click', function() {
+        let opcao = this.id // pegando o ido do botao digitado para saber de qual operador estamos lidado
+        if (opcao == OperadorAva[0]) { // se o botao digitado foi o raiz ao quadrado
+            new Calcular().RaizQuadrado()
+        } 
+        else if (opcao == OperadorAva[1]) { // se o botao digitado for o Ao quadrado
+            new Calcular().Quadrado()
+        } 
+        else if (opcao == OperadorAva[2]) {  // se o botao digitar foi o Raiz Quadrada
+            new Calcular().RaizCubico()
+        }
+        Display.innerText = Conta
     })
 }
 
