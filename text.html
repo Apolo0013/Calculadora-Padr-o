@@ -1,81 +1,93 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exemplo de Barra de Rolagem Estilizada</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Document</title>
   <style>
-        /* Estilo geral para o corpo */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f4;
-}
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
 
-.conteudo {
-  width: 100%;
-  height: 100vh;
-  overflow: auto; /* Barra de rolagem aparece quando necessário */
-  padding: 20px;
-  background-color: #fff;
-}
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: yellow;
+    }
 
-/* Estilizando a barra de rolagem */
-::-webkit-scrollbar {
-  width: 16px; /* Largura da barra de rolagem */
-  height: 16px; /* Altura da barra de rolagem horizontal */
-}
+    main {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 10px;
+    }
 
-/* Estilizando o trilho da barra de rolagem */
-::-webkit-scrollbar-track {
-  background: #e0e0e0; /* Cor do trilho */
-  border-radius: 10px; /* Bordas arredondadas */
-}
+    button {
+      width: 100px;
+      height: 50px;
+      border-radius: 20px;
+      outline: 0px;
+      border: 0px solid black;
+    }
 
-/* Estilizando o polegar da barra de rolagem */
-::-webkit-scrollbar-thumb {
-  background: #888; /* Cor do polegar */
-  border-radius: 10px; /* Bordas arredondadas */
-  border: 4px solid #e0e0e0; /* Borda ao redor do polegar */
-}
+    img {
+      border-radius: 20px;
+      width: 300px;
+      height: auto;
+    }
 
-/* Polegar da barra de rolagem quando em hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Cor do polegar quando em hover */
-}
+    .apa {
+      animation: fds 3s ease-in-out 1 forwards;
+    }
 
-/* Estilizando a barra de rolagem horizontal */
-::-webkit-scrollbar-horizontal {
-  height: 16px; /* Altura da barra de rolagem horizontal */
-}
+    .des {
+      animation: des 3s ease-in-out 1 forwards;
+    }
 
-/* Trilho da barra de rolagem horizontal */
-::-webkit-scrollbar-track-horizontal {
-  background: #e0e0e0;
-}
+    @keyframes fds {
+      from {
+        opacity: 0;
+      } 
+      to {
+        opacity: 1;
+      }
+    }
 
-/* Polegar da barra de rolagem horizontal */
-::-webkit-scrollbar-thumb-horizontal {
-  background: #888;
-}
-
+    @keyframes des {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="conteudo">
-    <h1>Exemplo de Barra de Rolagem Estilizada</h1>
-    <p>Role para ver a barra de rolagem personalizada.</p>
-    <p>Conteúdo longo para ativar a barra de rolagem...</p>
-    <p>Conteúdo longo para ativar a barra de rolagem...</p>
-    <p>Conteúdo longo para ativar a barra de rolagem...</p>
-    <p>Conteúdo longo para ativar a barra de rolagem...</p>
-    <p>Conteúdo longo para ativar a barra de rolagem...</p>
-    <p>Conteúdo longo para ativar a barra de rolagem...</p>
-    <p>Conteúdo longo para ativar a barra de rolagem...</p>
-    <p>Conteúdo longo para ativar a barra de rolagem...</p>
-    <p>Conteúdo longo para ativar a barra de rolagem...</p>
-  </div>
+  <main>
+    <img src="https://static.todamateria.com.br/upload/al/be/alberteinstein-cke.jpg" alt="">
+      <p>Click pra ver se o seu pc esta ligadofdp</p>
+      <button>Click</button>
+  </main>
+
+<script>
+  window.document.querySelector('button').addEventListener('click', () => {
+    let img = window.document.querySelector('img')
+    img.classList.add('des')
+    setTimeout(() => {
+      img.style.opacity = 0
+        img.src = 'https://static.historiadomundo.com.br/conteudo/images/adolf-hitler-realizando-saudacao-nazista-em-foto-1939-5c45fcb1567e9.jpg'
+        setTimeout(() => {
+          img.classList.remove('des')
+          img.classList.add('apa')
+      }, 1000)
+    }, 3000)
+  })
+</script>
 </body>
 </html>

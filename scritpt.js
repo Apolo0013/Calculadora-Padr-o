@@ -92,17 +92,14 @@ class ValidaEntrada{
             return false
         }
 
-        if (this.Entrada == '-' && Conta == '') {
-            if (OperadorAtual != '-') {
-                Conta = this.Entrada
-                Display.innerText = Conta
-                return
-            }
-        }
 
-        else if (TemNum(this.ContaAtual)) {
+        if (TemNum(this.ContaAtual)) {
+            //Condicao para alterar o valor da variavel de controle: OporadorNegativo
+            if (this.Entrada == '-') {
+                OperadorNegativo = true
+            }
+
             if (this.ContaAtual.length >= 1) {
-                OperadorAtual = this.Entrada
                 if (this.Eoperador(Acumulador.slice(Acumulador.length - 1, Acumulador.length))) {
                     Acumulador += Conta
                     let Calculado = new Calcular(Acumulador).Calcular()
@@ -120,12 +117,6 @@ class ValidaEntrada{
                     Conta = ''
                 }
             }
-        }
-        else {
-            console.log('pode nao fdp')
-            console.log(this.ContaAtual)
-            console.log(TemNum(this.ContaAtual))
-            return
         }
     }
 
@@ -208,31 +199,36 @@ class Calcular{
         return true
     }
 
-
-    MaxCaracte(Conta) { // ele vai trabalhar com as funcoes de baixo, verificando se ele entao fazendo a conta, sem passar do limite pae
-        if (Conta.length > 16){
-            return String(Conta).slice(0, 16).replace(',', '.')   
+    //Troca de sinal
+    TrocaDeSinal() {
+        if (Conta.slice(0, 1) == '-') {
+            Conta = Conta.slice(1, Conta.length)
         }
         else {
-            return String(Conta)
+            Conta = '-' + Conta
         }
     }
 
 
+    MaxCaracte(Conta) { // ele vai trabalhar com as funcoes de baixo, verificando se ele entao fazendo a conta, sem passar do limite pae
+        Conta = String(Conta)
+        let Contanum = Number(Conta).toFixed(2)
+        return String(Contanum).replace('.', ',')
+    }
+
+
     Quadrado() {
-        Conta = Conta.replace(',', '.')
         Conta = this.MaxCaracte(Number(Conta) * Number(Conta))
     }
 
 
     RaizQuadrada() {
-        Conta = Conta.replace(',', '.')
         Conta = this.MaxCaracte(Number(Conta) ** 0.5)
     }
 
 
     RaizCubico() {
-        
+        Conta = this.MaxCaracte(Math.cbrt(Number(Conta)))
     }
 
 
@@ -341,7 +337,6 @@ for (let element of Numeros) {
 }
 
 //Operadores Basicos
-let OperadorAtual = null // ele é o operador que esta dentro do da variavel acumulador
 for (let element of OperadorBasic) {
     window.document.getElementById(element).addEventListener('click', function () {
         new ValidaEntrada(Conta, this.textContent).Operador()
@@ -372,12 +367,17 @@ window.document.getElementById('vigula').addEventListener('click', function () {
 //iremos trabalha com os operadores "avançados" assim:
 // iremos pegar a varivel `Conta` e vamos aplica o operador nele, se o mesmo estive com vingula, vazio ou
 //Temos dois como o jeito de exercuta diferete.
-const OperadorAva = ['Raizquadrada', 'quadrado', 'RaiCu']
+const OperadorAva = ['Raizquadrada', 'quadrado', 'RaizCu']
 for (let op of OperadorAva) {
-    window.document.getElementById(op).addEventListener('click', function() {
+    window.document.getElementById(op).addEventListener('click', function () {
+        if (Conta == '' || new ValidaEntrada().VirgulaEnd(Conta.slice(Conta.length - 1, Conta.length))) {
+            return
+        }
+        
+        Conta = Conta.replace(',', '.')
         let opcao = this.id // pegando o ido do botao digitado para saber de qual operador estamos lidado
         if (opcao == OperadorAva[0]) { // se o botao digitado foi o raiz ao quadrado
-            new Calcular().RaizQuadrado()
+            new Calcular().RaizQuadrada()
         } 
         else if (opcao == OperadorAva[1]) { // se o botao digitado for o Ao quadrado
             new Calcular().Quadrado()
@@ -388,6 +388,19 @@ for (let op of OperadorAva) {
         Display.innerText = Conta
     })
 }
+
+
+//Troca de sinal
+let OperadorNegativo = false // Variavel de controle, basicamente, ele vai fala: "Olha, um operador subtrair , foi digita, e isso que dizer que nao podemos troca de sinal".
+// isso que dizer que nao podemos, troca de sinal, pq ja tem um operador que ja faz esse papel ex:
+// -10-11 // O 11 nao pode troca de sinal pra ja tem o operador ocupando essa troca, se fosse possivel:
+// -10--10 ficaria assim, dando error em calcular, JavaScript, ver isso como error.
+
+window.document.getElementById('trocasinal').addEventListener('click', () => {
+    if (Conta == '' && !OperadorNegativo) {return} // se o Conta estive com nenhum numero, arroche pra retorna assim fazendo que o codigo de baixo nao exercute
+    new Calcular().TrocaDeSinal() // Chamanda a class Calcalar e pegando o metedo dele.
+    Display.innerText = Conta // a class de cima vai alterar
+})
 
 
 // igualdade
