@@ -397,7 +397,10 @@ let OperadorNegativo = false // Variavel de controle, basicamente, ele vai fala:
 // -10--10 ficaria assim, dando error em calcular, JavaScript, ver isso como error.
 
 window.document.getElementById('trocasinal').addEventListener('click', () => {
-    if (Conta == '' && !OperadorNegativo) {return} // se o Conta estive com nenhum numero, arroche pra retorna assim fazendo que o codigo de baixo nao exercute
+    console.log(OperadorNegativo + ' var')
+    console.log(Conta + ' Conta')
+    console.log('Con' + Conta == '' && !OperadorNegativo)
+    if (Conta == '' || OperadorNegativo) {return} // se o Conta estive com nenhum numero, arroche pra retorna assim fazendo que o codigo de baixo nao exercute
     new Calcular().TrocaDeSinal() // Chamanda a class Calcalar e pegando o metedo dele.
     Display.innerText = Conta // a class de cima vai alterar
 })

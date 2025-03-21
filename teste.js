@@ -1,1 +1,1 @@
-console.log('1234'.slice(1 , 4))
+console.log(-5*-5)
