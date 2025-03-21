@@ -271,3 +271,45 @@ body {
         transform: translateX(-20px);
     }
 }
+
+.ConstanteButaoEuler, .ConstanteButaoPI {
+    position: relative;
+}
+
+
+.pi, .e {
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+}
+
+.up {
+    animation: up 0.4s ease-in-out 1 forwards;
+}
+
+.des {
+    animation: des 0.4s ease-in-out 1 forwards;
+}
+
+@keyframes up {
+    from {
+        opacity: 0;
+    }
+    to {
+        transform: translateX(-50%) translateY(-40px);
+        opacity: 1;
+    }
+}
+
+@keyframes des {
+    from {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-40px);
+    }
+    to {
+        transform: translateX(-50%) translateY(0px);
+        opacity: 0;
+    }
+}

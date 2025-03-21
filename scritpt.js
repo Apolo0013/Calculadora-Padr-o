@@ -110,7 +110,6 @@ class ValidaEntrada{
                     Conta = ''
                 }
                 else {
-                    console.log('nao')
                     Display.innerText = this.ContaAtual
                     Acumulador = this.ContaAtual + this.Entrada
                     DisplayAcu.innerText = Acumulador
@@ -234,7 +233,6 @@ class Calcular{
 
     Calcular() {
         let ContaFormatada = this.Conta.replace('x', '*').replace('÷', '/').replace('^', '**').replace(',', '.')
-        console.log(ContaFormatada)
         let evalute = new Function('return ' + ContaFormatada)
         let Resultado = String(evalute()).replaceAll('.', ',')
         return Resultado
@@ -324,6 +322,11 @@ for (let element of BackSpace) {
 //Numeros
 for (let element of Numeros) {
     window.document.getElementById(element).addEventListener('click', function () {// pegando a lista de ids do botoes numeros
+        if (ConsOn) {
+            Conta = ''
+            ConsOn = false
+        }
+
         if (Conta.length == 16) { // se o numero digitar passa de 16
             return
         }
@@ -397,14 +400,30 @@ let OperadorNegativo = false // Variavel de controle, basicamente, ele vai fala:
 // -10--10 ficaria assim, dando error em calcular, JavaScript, ver isso como error.
 
 window.document.getElementById('trocasinal').addEventListener('click', () => {
-    console.log(OperadorNegativo + ' var')
-    console.log(Conta + ' Conta')
-    console.log('Con' + Conta == '' && !OperadorNegativo)
     if (Conta == '' || OperadorNegativo) {return} // se o Conta estive com nenhum numero, arroche pra retorna assim fazendo que o codigo de baixo nao exercute
     new Calcular().TrocaDeSinal() // Chamanda a class Calcalar e pegando o metedo dele.
     Display.innerText = Conta // a class de cima vai alterar
 })
 
+//Botoes PI e Euler
+//PI: 3,14159
+//Euler: 2,71828
+let Constantes = ['pi', 'e']
+let ConsOn = false
+for (let cons of Constantes) {
+    window.document.getElementById(cons).addEventListener('click', function() {
+        ConsOn = true
+        let op = this.id
+        if (op == Constantes[0]) {
+            Conta = '3,14159'
+        }
+        else if (op == Constantes[1]) {
+            Conta = '2,71828'
+        }
+        console.log(Conta)
+        Display.innerText = Conta
+    })
+}
 
 // igualdade
 let ClearCampo = false // sera pra saber se o usuario fez a igualdade pra nois limpar depois que ele digitar outro numero pae fdp arrombodo caralho
