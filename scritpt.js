@@ -210,10 +210,20 @@ class Calcular{
     }
 
 
-    MaxCaracte(Conta) { // ele vai trabalhar com as funcoes de baixo, verificando se ele entao fazendo a conta, sem passar do limite pae
-        Conta = String(Conta)
-        let Contanum = Number(Conta).toFixed(2)
-        return String(Contanum).replace('.', ',')
+    MaxCaracte(Conta, casas = 2) { // ele vai trabalhar com as funcoes de baixo, verificando se ele entao fazendo a conta, sem passar do limite pae
+        let Float = () => { // verificar se o numero é real
+            Conta = String(Conta)
+            for (let num of Conta) {
+                if (num == '.') {
+                    return true
+                }
+            }
+            return false
+        }
+        if (Float()){ // se for real, vamos limitar as casas decimais
+            Conta = Number(Conta).toFixed(casas)
+        }
+        return String(Conta).replace('.', ',')
     }
 
 
@@ -449,6 +459,27 @@ for (let cons of Constantes) {
 window.document.getElementById('fa').addEventListener('click', function () {
     new Calcular().Fatorial(Conta)
 })
+
+//Cos, tan e sin
+let TrigoMetria = ['cos', 'tan', 'sin']
+for (let element of TrigoMetria) { // Trogonometria
+    window.document.getElementById(element).addEventListener('click', function () {
+        if (Conta == '') {return} // se ele estive vazio
+        // Por a funcao vim ja pronto optei pra deixa aqui, diretamente.
+        let opcao = this.id
+        if (opcao == TrigoMetria[0]) {
+            Conta = new Calcular().MaxCaracte(Math.cos(Conta), 13)
+        }
+        else if (opcao == TrigoMetria[1]) {
+            Conta = new Calcular().MaxCaracte(Math.tan(Conta), 13)
+        }  
+        else if (opcao == TrigoMetria[2]) {
+            Conta = new Calcular().MaxCaracte(Math.sin(Conta), 13)
+        }
+        Display.innerText = Conta
+        console.log(Conta.length)
+    })
+}
 
 // igualdade
 let ClearCampo = false // sera pra saber se o usuario fez a igualdade pra nois limpar depois que ele digitar outro numero pae fdp arrombodo caralho
