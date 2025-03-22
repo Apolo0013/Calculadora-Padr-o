@@ -25,7 +25,7 @@
                 <!--Acumulador-->
                 <div class="Acumulador"></div>
                 <!--Continha pae-->
-                <div class="conta" id="conta">0</div>
+                <div class="conta" id="conta"></div>
             </div>
             <div class="Botoes">
                 <!--Linha 1-->
@@ -80,8 +80,7 @@
                     <button class="Botao BotaoTri" id="tan" aria-label="Tan">tan</button>
                 </div>
                 <div class="l6">
-                    <button class="rad Botao" aria-label="Radiano">Rad</button>
-                    <button class="fac Botao" aria-label="Factorial">!</button>
+                    <button class="fac Botao" aria-label="Factorial" id="fa">!</button>
                 </div>
             </div>
         </div>
@@ -169,6 +168,7 @@
 
         //Format display
         function FontConta(){
+            console.log('chamado')
             let p = window.document.querySelector('.conta')
 
             let textlen = p.textContent.length
@@ -191,7 +191,10 @@
             }
         }
 
-        window.document.body.addEventListener('click', FontConta)
+        
+        for (let element of [...document.querySelectorAll('.Calculadora')]) {
+            element.addEventListener('click', FontConta)
+        }
 
         // PI e Euler 
         const PI = window.document.querySelector('.pi')
@@ -216,8 +219,8 @@
         })
 
         Ebotao.addEventListener('mouseleave', () => {
-            e.classList.remove('des')
             e.classList.remove('up')
+            e.classList.add('des')
         })
     </script>
 </body>

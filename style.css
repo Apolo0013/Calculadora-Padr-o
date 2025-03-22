@@ -122,7 +122,7 @@ body {
     align-items: center;
 }
 
-.fac, .rad {
+.fac {
     font-size: 20px;
     border: 0px;
     border-radius: 5px;
@@ -133,11 +133,6 @@ body {
 .fac {
     background: var(--btn-factorial);
 }
-
-.rad {
-    background: var(--btn-rad);
-}
-
 
 /*Display*/
 .display {
@@ -234,7 +229,7 @@ body {
         padding: 20px;
     }
 
-    .fac, .rad {
+    .fac{
         font-size: 20px;
         border: 0px;
         border-radius: 5px;
@@ -249,7 +244,7 @@ body {
         height: 70px;
     }   
 
-    .fac, .rad {
+    .fac{
         font-size: 15px;
         border: 0px;
         border-radius: 5px;
@@ -311,5 +306,31 @@ body {
     to {
         transform: translateX(-50%) translateY(0px);
         opacity: 0;
+    }
+}
+
+/*Error infinito*/
+.Error {
+    animation: Error 0.6s ease-in-out 2;
+}
+
+@keyframes Error {
+    25% {
+        transform: translateY(-2px);
+        color: red;
+    }
+    50% {
+        transform: translateX(-2px);
+        color: var(--display-text);
+    }
+    75% {
+        transform: translateY(2px);
+        color: red;
+    }
+    99% {
+        transform: translateX(2px);
+    }
+    100% {
+        transform: translate(0px);
     }
 }

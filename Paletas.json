@@ -17,7 +17,6 @@
         "--backspace-color": "#ff4d4d",
         "--text-general": "#333333",
         "--btn-hist-hover": "rgba(0, 0, 0, 0.15)",
-        "--btn-rad": "#32cd32",
         "--btn-factorial": "#ff4500"
     },
     
@@ -39,7 +38,6 @@
         "--backspace-color": "#ff3333",
         "--text-general": "#b3b3b3",
         "--btn-hist-hover": "rgba(255, 255, 255, 0.2)",
-        "--btn-rad": "#32cd32",
         "--btn-factorial": "#ff4500"
     },
 
@@ -61,7 +59,6 @@
         "--backspace-color": "#ff4c4c",
         "--text-general": "#c7c7c7",
         "--btn-hist-hover": "rgba(184, 184, 184, 0.100)",
-        "--btn-rad": "#32cd32",
         "--btn-factorial": "#ff4500"
     }
 }

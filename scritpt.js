@@ -198,6 +198,7 @@ class Calcular{
         return true
     }
 
+
     //Troca de sinal
     TrocaDeSinal() {
         if (Conta.slice(0, 1) == '-') {
@@ -213,6 +214,27 @@ class Calcular{
         Conta = String(Conta)
         let Contanum = Number(Conta).toFixed(2)
         return String(Contanum).replace('.', ',')
+    }
+
+
+    //Fatorial
+    Fatorial(num) { // fatorial
+        let fa = num // fa é a variavel que vai acumular multiplicação
+        for (let i = num - 1; i >= 1 ; i--) {
+            fa*= i
+        }
+        //condicao pra quando o fatorial da inifinito, ai fudeu tudo.
+        if (fa === Infinity) {
+            Conta = ''
+            Display.innerText = 'infinito'
+            Display.classList.add('Error')
+            Display.addEventListener('animationend', () => {
+                Display.classList.remove('Error')
+            })
+            return
+        }
+        Conta = String(fa).slice(0, 16)
+        Display.innerText = Conta
     }
 
 
@@ -286,37 +308,35 @@ for (let element of BackSpace) {
         //AC: ele simplemente, da um clera em tudo, como nas variavel: "Conta" e "Acumulador"
         //CE: ele so vai da um clear na variavel Conta, ou seja, apenas no numero que esta sendo digitado
         let opcao = this.id // pegando o id pra diferencia os dois
-        if (Conta.length >= 1) {
-            if (opcao == 'back') { // se for back, sabemos que  ele so vai retirar o ultimo caractere
-                if (Conta.length >= 2) { // caso ele for maior ou igual a 2, vamos fatia
-                    let back = Conta.slice(0, Conta.length - 1) // fatiando, o primeiro caractere ate o penultimo
-                    Conta = back // dando o valor de back pra a conta
-                    Display.innerText = Conta // dando valor do display, texto do display, de Conta, que tem o valor do back
-                }
-                else { // senao, que dizer que ele so tem um entao vamos aligiza, dando um clear tootal igual do AC
-                    Display.innerText = '0'
-                    Conta = ''
-                }
+        console.log(Conta.length)
+        if (opcao == 'back') { // se for back, sabemos que  ele so vai retirar o ultimo caractere
+            if (Conta.length >= 2) { // caso ele for maior ou igual a 2, vamos fatia
+                let back = Conta.slice(0, Conta.length - 1) // fatiando, o primeiro caractere ate o penultimo
+                Conta = back // dando o valor de back pra a conta
+                Display.innerText = Conta // dando valor do display, texto do display, de Conta, que tem o valor do back
             }
-            else if (opcao == 'CE') {
-                Conta = '' //Clear na variavel, o carinho que é manipulado pra se exbido no display
+            else { // senao, que dizer que ele so tem um entao vamos aligiza, dando um clear tootal igual do AC
                 Display.innerText = '0'
-            }
-            else { //  algo deu muito errado aqui.
-                console.log('algo deu errado paeeeeeee')
+                Conta = ''
             }
         }
-        else { // o porque dele esta seperado: ele simples vai deletar tudo, tudo mesmo, no if desse else, so pode se atendido, se a conta for maior ou igual a 1, aqui nao precisa disso paeeeeeeeeeeeee.
-            if (opcao == 'ac') { //clear: Conta e Acumulador    
-                Conta = '' // conta sera um string vazia
-                Acumulador = ''
-                DisplayAcu.innerText = Acumulador
-                Display.innerText = '0' // display tera o valor de zero, o 0, nao faz parte da conta, apenas style
+        else if (opcao == 'CE') {
+            Conta = '' //Clear na variavel, o carinho que é manipulado pra se exbido no display
+            Display.innerText = '0'
+        }
         
-            }
+        // o porque dele esta seperado: ele simples vai deletar tudo, tudo mesmo, no if desse else, so pode se atendido, se a conta for maior ou igual a 1, aqui nao precisa disso paeeeeeeeeeeeee.
+        else if (opcao == 'ac') { //clear: Conta e Acumulador    
+            Conta = '' // conta sera um string vazia
+            Acumulador = ''
+            DisplayAcu.innerText = Acumulador
+            Display.innerText = '0' // display tera o valor de zero, o 0, nao faz parte da conta, apenas style
         }
-    }
-    )
+            
+        else { //  algo deu muito errado aqui.
+            console.log('algo deu errado paeeeeeee')
+        }
+    })
 }
 
 //Numeros
@@ -424,6 +444,11 @@ for (let cons of Constantes) {
         Display.innerText = Conta
     })
 }
+
+//fatorial
+window.document.getElementById('fa').addEventListener('click', function () {
+    new Calcular().Fatorial(Conta)
+})
 
 // igualdade
 let ClearCampo = false // sera pra saber se o usuario fez a igualdade pra nois limpar depois que ele digitar outro numero pae fdp arrombodo caralho
