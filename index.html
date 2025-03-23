@@ -89,7 +89,7 @@
     <script src="scritpt.js"></script>
     <script>
         async function GetJson() {
-            return fetch('Paletas.json')
+            return fetch('./Paletas.json')
                 .then(response => {
                     if (!response.ok) {
                     throw new Error('Falha ao carregar o arquivo JSON');
