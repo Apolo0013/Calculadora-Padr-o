@@ -234,15 +234,7 @@ class Calcular{
             fa*= i
         }
         //condicao pra quando o fatorial da inifinito, ai fudeu tudo.
-        if (fa === Infinity) {
-            Conta = ''
-            Display.innerText = 'infinito'
-            Display.classList.add('Error')
-            Display.addEventListener('animationend', () => {
-                Display.classList.remove('Error')
-            })
-            return
-        }
+        NoInfinito()
         Conta = String(fa).slice(0, 16)
         Display.innerText = Conta
     }
@@ -272,6 +264,19 @@ class Calcular{
 
 }
 
+
+//Problema com inifinito
+function NoInfinito() {
+    if (Conta === Infinity || Conta === -Infinity) {
+        Conta = ''
+        Display.innerText = 'infinito'
+        Display.classList.add('Error')
+        Display.addEventListener('animationend', () => {
+            Display.classList.remove('Error')
+        })
+        return
+    }
+}
 
 
 //Ids botoes
@@ -373,6 +378,7 @@ for (let element of Numeros) {
 for (let element of OperadorBasic) {
     window.document.getElementById(element).addEventListener('click', function () {
         new ValidaEntrada(Conta, this.textContent).Operador()
+        NoInfinito()
     })
 }
 
@@ -419,6 +425,7 @@ for (let op of OperadorAva) {
             new Calcular().RaizCubico()
         }
         Display.innerText = Conta
+        NoInfinito()
     })
 }
 
@@ -480,6 +487,14 @@ for (let element of TrigoMetria) { // Trogonometria
         console.log(Conta.length)
     })
 }
+
+// Logaritmo Natural
+window.document.getElementById('log').addEventListener('click', () => {
+    if (Conta == '') { return } // se Conta estive vazia
+    Conta = new Calcular().MaxCaracte(Math.log(Conta), 13)
+    console.log(Conta)
+    Display.innerText = Conta
+})
 
 // igualdade
 let ClearCampo = false // sera pra saber se o usuario fez a igualdade pra nois limpar depois que ele digitar outro numero pae fdp arrombodo caralho
