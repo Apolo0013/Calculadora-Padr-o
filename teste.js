@@ -1,1 +1,2 @@
-console.log(isNaN(5))
+let fds = Infinity
+console.log(Number('Infinity') == Infinity)

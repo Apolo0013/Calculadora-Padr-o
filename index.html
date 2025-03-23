@@ -25,7 +25,7 @@
                 <!--Acumulador-->
                 <div class="Acumulador"></div>
                 <!--Continha pae-->
-                <div class="conta" id="conta"></div>
+                <div class="conta" id="conta">8,63616855509444888999</div>
             </div>
             <div class="Botoes">
                 <!--Linha 1-->
@@ -168,7 +168,6 @@
 
         //Format display
         function FontConta(){
-            console.log('chamado')
             let p = window.document.querySelector('.conta')
 
             let textlen = p.textContent.length
@@ -189,8 +188,17 @@
                 p.style.fontSize = '40px'
                 p.style.top = '60%'
             }
+            else if (textlen <= 19) {
+                p.style.fontSize = '35px'
+                p.style.top = '63%'
+            }
+            else if (textlen <= 22) {
+                p.style.fontSize = '30px'
+                p.style.top = '65%'
+            }
         }
 
+        FontConta()
         
         for (let element of [...document.querySelectorAll('.Calculadora')]) {
             element.addEventListener('click', FontConta)

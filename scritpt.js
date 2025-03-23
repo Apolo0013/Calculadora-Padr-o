@@ -52,7 +52,7 @@ class ValidaEntrada{
             DisplayAcu.innerText = ''
         }
         
-
+        console.log(this.ContaAtual)
         let regex = /^-?(?!0\d)(\d+)(,\d*)?$/
         
         if (regex.test(this.ContaAtual + this.Entrada)) {
@@ -210,7 +210,7 @@ class Calcular{
     }
 
 
-    MaxCaracte(Conta, casas = 2) { // ele vai trabalhar com as funcoes de baixo, verificando se ele entao fazendo a conta, sem passar do limite pae
+    CasasDecimais(Conta, casas = 2) { // ele vai trabalhar com as funcoes de baixo, verificando se ele entao fazendo a conta, sem passar do limite pae
         let Float = () => { // verificar se o numero é real
             Conta = String(Conta)
             for (let num of Conta) {
@@ -220,7 +220,7 @@ class Calcular{
             }
             return false
         }
-        if (Float()){ // se for real, vamos limitar as casas decimais
+        if (Float()) { // se for real, vamos limitar as casas decimais
             Conta = Number(Conta).toFixed(casas)
         }
         return String(Conta).replace('.', ',')
@@ -233,25 +233,39 @@ class Calcular{
         for (let i = num - 1; i >= 1 ; i--) {
             fa*= i
         }
-        //condicao pra quando o fatorial da inifinito, ai fudeu tudo.
-        NoInfinito()
-        Conta = String(fa).slice(0, 16)
+        Conta = String(fa).slice(0, 16).replace('.', ',')
         Display.innerText = Conta
     }
 
 
+    LimiteInfinito(resultado) { //responsavel por Dizer o limite e da o caminho do resultado, se pode ou nao pode
+        if (resultado.length > 22 || resultado == Infinity) { // se o numero resultandte for maior do que 22 que no caso é limite, e ser for inifito ou seja nao pude paeeeeeee
+            Conta = Conta.replace('.', ',')
+            Display.innerText = Conta
+            ErrorDisplay()
+            return
+        }
+        else { // senao Conta sera o resultado
+            Conta = this.CasasDecimais(resultado)
+        }
+    }
+
+
     Quadrado() {
-        Conta = this.MaxCaracte(Number(Conta) * Number(Conta))
+        let resultado = String(Number(Conta) * Number(Conta))
+        this.LimiteInfinito(resultado)
     }
 
 
     RaizQuadrada() {
-        Conta = this.MaxCaracte(Number(Conta) ** 0.5)
+        let resultado = String(Number(Conta) ** 0.5)
+        this.LimiteInfinito(resultado)
     }
 
 
     RaizCubico() {
-        Conta = this.MaxCaracte(Math.cbrt(Number(Conta)))
+        let resultado = String(Math.cbrt(Number(Conta)))
+        this.LimiteInfinito(resultado)
     }
 
 
@@ -266,16 +280,11 @@ class Calcular{
 
 
 //Problema com inifinito
-function NoInfinito() {
-    if (Conta === Infinity || Conta === -Infinity) {
-        Conta = ''
-        Display.innerText = 'infinito'
-        Display.classList.add('Error')
-        Display.addEventListener('animationend', () => {
-            Display.classList.remove('Error')
-        })
-        return
-    }
+function ErrorDisplay() {
+    Display.classList.add('Error')
+    Display.addEventListener('animationend', () => {
+        Display.classList.remove('Error')
+    })
 }
 
 
@@ -323,7 +332,6 @@ for (let element of BackSpace) {
         //AC: ele simplemente, da um clera em tudo, como nas variavel: "Conta" e "Acumulador"
         //CE: ele so vai da um clear na variavel Conta, ou seja, apenas no numero que esta sendo digitado
         let opcao = this.id // pegando o id pra diferencia os dois
-        console.log(Conta.length)
         if (opcao == 'back') { // se for back, sabemos que  ele so vai retirar o ultimo caractere
             if (Conta.length >= 2) { // caso ele for maior ou igual a 2, vamos fatia
                 let back = Conta.slice(0, Conta.length - 1) // fatiando, o primeiro caractere ate o penultimo
@@ -347,10 +355,6 @@ for (let element of BackSpace) {
             DisplayAcu.innerText = Acumulador
             Display.innerText = '0' // display tera o valor de zero, o 0, nao faz parte da conta, apenas style
         }
-            
-        else { //  algo deu muito errado aqui.
-            console.log('algo deu errado paeeeeeee')
-        }
     })
 }
 
@@ -362,9 +366,8 @@ for (let element of Numeros) {
             ConsOn = false
         }
 
-        if (Conta.length == 16) { // se o numero digitar passa de 16
-            return
-        }
+        if (Conta.length == 22) {return} // se ultrapassa o limite
+
         Conta = new ValidaEntrada(Conta, this.textContent).ValidaNumero() // chamand a class de ValidaEntrada
         if (Conta == '') {
             Display.innerText = '0'
@@ -378,16 +381,15 @@ for (let element of Numeros) {
 for (let element of OperadorBasic) {
     window.document.getElementById(element).addEventListener('click', function () {
         new ValidaEntrada(Conta, this.textContent).Operador()
-        NoInfinito()
     })
 }
 
 //Vigula
 window.document.getElementById('vigula').addEventListener('click', function () {
     //a quantidade denumero que o usuario pode digitar.
-    if (Conta.length == 16) { return } // se atigir o limite retorne
+    if (Conta.length == 22) { return } // se atigir o limite retorne
     console.log('limite nao')
-    if (Conta.length == 15) { // ja que o limite é 16, nao pode deixa um virgula no final
+    if (Conta.length == 21) { // ja que o limite é 16, nao pode deixa um virgula no final
         return
     }
 
@@ -409,7 +411,7 @@ window.document.getElementById('vigula').addEventListener('click', function () {
 const OperadorAva = ['Raizquadrada', 'quadrado', 'RaizCu']
 for (let op of OperadorAva) {
     window.document.getElementById(op).addEventListener('click', function () {
-        if (Conta == '' || new ValidaEntrada().VirgulaEnd(Conta.slice(Conta.length - 1, Conta.length))) {
+        if (Conta == '' || Conta.length == 16 || new ValidaEntrada().VirgulaEnd(Conta.slice(Conta.length - 1, Conta.length))) {
             return
         }
         
@@ -425,7 +427,7 @@ for (let op of OperadorAva) {
             new Calcular().RaizCubico()
         }
         Display.innerText = Conta
-        NoInfinito()
+
     })
 }
 
@@ -474,24 +476,24 @@ for (let element of TrigoMetria) { // Trogonometria
         if (Conta == '') {return} // se ele estive vazio
         // Por a funcao vim ja pronto optei pra deixa aqui, diretamente.
         let opcao = this.id
+        Conta = Conta.replace(',', '.')
         if (opcao == TrigoMetria[0]) {
-            Conta = new Calcular().MaxCaracte(Math.cos(Conta), 13)
+            Conta = new Calcular().CasasDecimais(Math.cos(Conta), 13)
         }
         else if (opcao == TrigoMetria[1]) {
-            Conta = new Calcular().MaxCaracte(Math.tan(Conta), 13)
+            Conta = new Calcular().CasasDecimais(Math.tan(Conta), 13)
         }  
         else if (opcao == TrigoMetria[2]) {
-            Conta = new Calcular().MaxCaracte(Math.sin(Conta), 13)
+            Conta = new Calcular().CasasDecimais(Math.sin(Conta), 13)
         }
         Display.innerText = Conta
-        console.log(Conta.length)
     })
 }
 
 // Logaritmo Natural
 window.document.getElementById('log').addEventListener('click', () => {
     if (Conta == '') { return } // se Conta estive vazia
-    Conta = new Calcular().MaxCaracte(Math.log(Conta), 13)
+    Conta = new Calcular().CasasDecimais(Math.log(Conta), 13)
     console.log(Conta)
     Display.innerText = Conta
 })

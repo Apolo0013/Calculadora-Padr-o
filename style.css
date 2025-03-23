@@ -316,19 +316,19 @@ body {
 
 @keyframes Error {
     25% {
-        transform: translateY(-2px);
+        transform: translateY(-1px);
         color: red;
     }
     50% {
-        transform: translateX(-2px);
+        transform: translateX(-3px);
         color: var(--display-text);
     }
     75% {
-        transform: translateY(2px);
+        transform: translateY(1px);
         color: red;
     }
     99% {
-        transform: translateX(2px);
+        transform: translateX(3px);
     }
     100% {
         transform: translate(0px);
