@@ -114,7 +114,6 @@
 
         async function AddPaleta() {
             Paleta = await GetJson()
-            console.log(Paleta)
             
             let PaletaFinal = null
             if (Tema == '0') {
@@ -140,19 +139,13 @@
                     document.documentElement.style.setProperty(vari[0], vari[1])
                 }
             }
-            else {
-                console.log('sem objeto fdp')
-            }
-        
-
         }
         //Mudar Paleta de Cores
         var Tema = localStorage.getItem('Paleta')
-        if (Tema == false) {
+        if (Tema == false || Tema == null) {
             Tema = '0'
             localStorage.setItem('Paleta', Tema)
         }
-        console.log(Tema)
         let TemaTroca = Number(Tema)
         var Paleta = null
         AddPaleta()
