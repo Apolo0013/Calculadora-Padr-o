@@ -52,11 +52,9 @@ class ValidaEntrada{
             DisplayAcu.innerText = ''
         }
         
-        console.log(this.ContaAtual)
         let regex = /^-?(?!0\d)(\d+)(,\d*)?$/
         
         if (regex.test(this.ContaAtual + this.Entrada)) {
-            console.log(this.Entrada)
             return this.ContaAtual + this.Entrada
         }   
         else {
@@ -129,12 +127,6 @@ class ValidaEntrada{
             Display.innerText = Calculado
             Acumulador = ''
             Conta = ''
-        }
-        else {
-            console.log('rejeitado')
-            console.log('Conta: ' + Conta)
-            console.log('Acumulador: ' + Conta)
-            console.log('Virgula no final?: ' + this.VirgulaEnd(Conta)? 'Sim': 'Nao')
         }
     }
 
@@ -388,7 +380,6 @@ for (let element of OperadorBasic) {
 window.document.getElementById('vigula').addEventListener('click', function () {
     //a quantidade denumero que o usuario pode digitar.
     if (Conta.length == 22) { return } // se atigir o limite retorne
-    console.log('limite nao')
     if (Conta.length == 21) { // ja que o limite é 16, nao pode deixa um virgula no final
         return
     }
@@ -459,7 +450,6 @@ for (let cons of Constantes) {
         else if (op == Constantes[1]) {
             Conta = '2,71828'
         }
-        console.log(Conta)
         Display.innerText = Conta
     })
 }
@@ -494,7 +484,6 @@ for (let element of TrigoMetria) { // Trogonometria
 window.document.getElementById('log').addEventListener('click', () => {
     if (Conta == '') { return } // se Conta estive vazia
     Conta = new Calcular().CasasDecimais(Math.log(Conta), 13)
-    console.log(Conta)
     Display.innerText = Conta
 })
 
